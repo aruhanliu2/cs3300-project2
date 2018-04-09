@@ -1,0 +1,166 @@
+<html>
+    <head>
+        <title>CS3300 project 2</title>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://d3js.org/topojson.v2.min.js"></script>
+        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script src="functions.js"></script>
+        <style>
+            path.county { fill:#ccc; stroke:#fff;; }
+            div.tooltip {   
+                position: absolute;         
+                text-align: center;         
+                width: 60px;                    
+                height: 28px;                   
+                padding: 2px;               
+                font: 12px sans-serif;      
+                background: lightsteelblue; 
+                border: 0px;        
+                border-radius: 8px;         
+                pointer-events: none;           
+            }
+
+            .legend rect{
+                stroke: #000;
+            }
+
+            .legend, .legend_title text{
+                font-size:10pt;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="title"></div>
+        <p>
+            <label for="range1" style="display: inline-block; width: 240px; text-align: right">
+                income = <span id="income">…</span>
+            </label>
+            <input type="range" min="25000" max="65000" id="range1">
+        </p>
+        <svg id="map" height="600" width="900"></svg>
+        <div id="legend"></div>
+
+        <script>
+
+            // Define the div for the tooltip
+            var div = d3.select("body").append("div")   
+                .attr("class", "tooltip")               
+                .style("opacity", 0);
+
+            //graph title
+            var title = d3.select("#title")
+                .append("svg")
+                .attr("width", 900)
+                .attr("height", 50);
+                
+            title.append("text")
+                .attr("transform", "translate(460,40)")
+                .attr("text-anchor", "middle")
+                .style("font-size", 22)
+                .style("font-weight", "bolder")
+                .style("font-family", "sans-serif")
+                .text("Income and Affordablity");
+
+            var svg = d3.select("#map");
+            var projection = d3.geoAlbersUsa().scale(75);
+            var pathGenerator = d3.geoPath().projection(projection);
+            var counties;
+            var data;
+            var inputValue = null;
+
+            //define color scale
+            var color_na = d3.rgb("#d4d4d4"); 
+            var colors = ["#FAE6DB","#F2B196","#EB7254","#CD3E32","#98241F"];
+            var colorScale = d3.scaleLinear().domain([66.81,70.814,74.818,78.822,82.826,86.83]).range(colors);
+
+            //initialize legend container
+            var legend = d3.select("#legend")
+                .append("svg")
+                .attr("width", 600)
+                .attr("height", 600)
+
+            legendData = [
+                {"coordinates": [50,0], "color": "#FAE6DB", "text": "66.81-70.814"},
+                {"coordinates": [50,30], "color": "#F2B196", "text": "66.81-70.814"},
+                {"coordinates": [50,60], "color": "#EB7254", "text": "66.81-70.814"},
+                {"coordinates": [50,90], "color": "#CD3E32", "text": "66.81-70.814"},
+                {"coordinates": [50,120], "color": "#98241F", "text": "66.81-70.814"}
+            ];
+
+            legendData.forEach(function(d){
+                legend.append("rect")
+                .attr("x", d.coordinates[0])
+                .attr("y", d.coordinates[1])
+                .attr("height", 20)
+                .attr("width", 20)
+                .style("fill", d.color)
+                .style("opacity", 0.8)
+
+                var y = d.coordinates[1] + 15;
+                legend.append("text")
+                .attr("transform", "translate(100 , " + y + ")")
+                .style("font-size", 15)
+                .style("font-family", "sans-serif")
+                .text(d.text);
+            });
+
+            
+
+            //load data
+            d3.queue()
+            .defer(d3.json, "us.json")
+            .defer(d3.csv, "us_county_health_wealth.csv")
+            .await(callback);
+    
+            function callback(error, rawMap, rawData){
+                data = d3.map(rawData, function(d) {
+                    return Number(d.FIPS);
+                });
+                console.log(data);
+                counties = topojson.feature(rawMap, rawMap.objects.counties);
+                projection.fitExtent([[0,0], [svg.attr("width"), svg.attr("height")]], counties);
+                pathGenerator = d3.geoPath().projection(projection);
+
+                //init map
+                svg.selectAll("path.county")
+                .data(counties.features)
+                .enter().append("path")
+                .attr("class", "county")
+                .attr("d", function(county) {
+                    return pathGenerator(county);
+                })              
+                .call(fillMap, data)
+
+                //mouse hovering
+                .on('mouseover', function(d, i) {
+                    var currentState = this;
+                    d3.select(this).style('fill-opacity', 1);
+                    div.transition()        
+                        .duration(200)      
+                        .style("opacity", .9);      
+                    div .html("hello")  
+                        .style("left", (d3.event.pageX) + "px")     
+                        .style("top", (d3.event.pageY - 28) + "px");    
+                })
+                .on('mouseout', function(d, i) {
+                    d3.selectAll('path')
+                    .style({
+                        'fill-opacity':.7
+                    });
+                    div.transition()        
+                    .duration(500)      
+                    .style("opacity", 0);   
+                })
+            }
+
+            //the slider
+            d3.select("#range1").on("input", function() {
+                update(+this.value, data);
+            });
+
+            //initialize map
+            update(40000);
+            
+        </script>
+    </body>
+</html>
