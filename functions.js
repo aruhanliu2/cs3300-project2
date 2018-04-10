@@ -95,16 +95,6 @@ function scatterPlot(data) {
     var xScale = d3.scaleLinear().domain([xmin, xmax]).range([0,400]);
     var yScale = d3.scaleLinear().domain([ymin, ymax]).range([300,0]);
 
-    //add line
-    var line = d3.line()
-    .x(d => xScale(d.total_cost))
-    .y(d => yScale(d.life_expectancy));
-
-    // svg.append("path")
-    // .attr("class", "line")
-    // .attr("d", line(data))
-    // .style("stroke", "#000000")
-    // .style("fill", "none");
 
     //add points
     svg.selectAll('circle')
