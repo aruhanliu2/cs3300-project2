@@ -6,14 +6,14 @@
         <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
         <script src="functions.js"></script>
         <style>
-            path.county { fill:#ccc; stroke:#fff;; }
+            path.county { fill:#ccc; stroke:#fff; stroke-width: 0.5px }
             div.tooltip {   
                 position: absolute;         
                 text-align: center;         
-                width: 60px;                    
-                height: 28px;                   
+                width: 160px;                    
+                height: 60px;                   
                 padding: 2px;               
-                font: 12px sans-serif;      
+                font: 15px sans-serif;      
                 background: lightsteelblue; 
                 border: 0px;        
                 border-radius: 8px;         
@@ -35,7 +35,7 @@
             <label for="range1" style="display: inline-block; width: 240px; text-align: right">
                 income = <span id="income">…</span>
             </label>
-            <input type="range" min="25000" max="65000" id="range1">
+            <input type="range" min="35000" max="105000" step="5000" id="range1">
         </p>
         <svg id="map" height="600" width="900"></svg>
         <div id="legend"></div>
@@ -73,18 +73,25 @@
             var colors = ["#FAE6DB","#F2B196","#EB7254","#CD3E32","#98241F"];
             var colorScale = d3.scaleLinear().domain([66.81,70.814,74.818,78.822,82.826,86.83]).range(colors);
 
+            //extreme values
+            var county_longest;
+            var county_shortest;
+            var longest_life_expectancy;
+            var shortest_life_expectancy;
+
             //initialize legend container
             var legend = d3.select("#legend")
                 .append("svg")
-                .attr("width", 600)
+                .attr("width", 900)
                 .attr("height", 600)
 
+            //initialize legend
             legendData = [
                 {"coordinates": [50,0], "color": "#FAE6DB", "text": "66.81-70.814"},
-                {"coordinates": [50,30], "color": "#F2B196", "text": "66.81-70.814"},
-                {"coordinates": [50,60], "color": "#EB7254", "text": "66.81-70.814"},
-                {"coordinates": [50,90], "color": "#CD3E32", "text": "66.81-70.814"},
-                {"coordinates": [50,120], "color": "#98241F", "text": "66.81-70.814"}
+                {"coordinates": [50,30], "color": "#F2B196", "text": "70.814-74.818"},
+                {"coordinates": [50,60], "color": "#EB7254", "text": "74.818-78.822"},
+                {"coordinates": [50,90], "color": "#CD3E32", "text": "78.822-82.826"},
+                {"coordinates": [50,120], "color": "#98241F", "text": "82.826-86.83"}
             ];
 
             legendData.forEach(function(d){
@@ -95,6 +102,8 @@
                 .attr("width", 20)
                 .style("fill", d.color)
                 .style("opacity", 0.8)
+                .on("mouseover", function(d) { legendMouseOver(d, data)})
+                .on("mouseout", function() { legendMouseOut(data)})
 
                 var y = d.coordinates[1] + 15;
                 legend.append("text")
@@ -104,7 +113,22 @@
                 .text(d.text);
             });
 
+            //adding the counties with longest life expectancy
+            legend.append("text")
+                .attr("id", "county1")
+                .attr("transform", "translate(250,40)")
+                .style("font-size", 15)
+                .style("font-weight", "bolder")
+                .style("font-family", "sans-serif")
+                .text("longest life expectancy: " + county_longest + ", " + longest_life_expectancy)
             
+            legend.append("text")
+                .attr("id", "county2")
+                .attr("transform", "translate(250,80)")
+                .style("font-size", 15)
+                .style("font-weight", "bolder")
+                .style("font-family", "sans-serif")
+                .text("shortest life expectancy: " + county_shortest + ", " + shortest_life_expectancy)
 
             //load data
             d3.queue()
@@ -116,7 +140,6 @@
                 data = d3.map(rawData, function(d) {
                     return Number(d.FIPS);
                 });
-                console.log(data);
                 counties = topojson.feature(rawMap, rawMap.objects.counties);
                 projection.fitExtent([[0,0], [svg.attr("width"), svg.attr("height")]], counties);
                 pathGenerator = d3.geoPath().projection(projection);
@@ -132,24 +155,12 @@
                 .call(fillMap, data)
 
                 //mouse hovering
-                .on('mouseover', function(d, i) {
+                .on('mouseover', function(d) {
                     var currentState = this;
-                    d3.select(this).style('fill-opacity', 1);
-                    div.transition()        
-                        .duration(200)      
-                        .style("opacity", .9);      
-                    div .html("hello")  
-                        .style("left", (d3.event.pageX) + "px")     
-                        .style("top", (d3.event.pageY - 28) + "px");    
+                    countyMouseOver(currentState, data.get(d.id));
                 })
-                .on('mouseout', function(d, i) {
-                    d3.selectAll('path')
-                    .style({
-                        'fill-opacity':.7
-                    });
-                    div.transition()        
-                    .duration(500)      
-                    .style("opacity", 0);   
+                .on('mouseout', function(d) { 
+                    countyMouseOut(d);  
                 })
             }
 
