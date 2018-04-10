@@ -42,11 +42,9 @@ function fillMap(selection, data) {
     })
 
     d3.select("#county1")
-    .attr("transform", "translate(250,40)")
     .text("longest life expectancy: " + county_longest + ", " + longest_life_expectancy)
     
     d3.select("#county2")
-    .attr("transform", "translate(250,80)")
     .text("shortest life expectancy: " + county_shortest + ", " + shortest_life_expectancy)
 }
 
@@ -79,4 +77,56 @@ function countyMouseOut(d) {
     div.transition()        
     .duration(500)      
     .style("opacity", 0);
+}
+
+function scatterPlot(data) {
+    var padding = 45;
+    var padding2 = 20;
+
+    var xmax = d3.max(data, function(d) { return +d.total_cost;} );
+    var xmin = d3.min(data, function(d) { return +d.total_cost;} );
+    var ymax = d3.max(data, function(d) { return +d.life_expectancy;} );
+    var ymin = d3.min(data, function(d) { return +d.life_expectancy;} );
+    // Now create a plot
+    var svg = d3.select("#svg1")
+    .attr("height", 300 + 2 * padding).attr("width", 400 + 2 * padding)
+    .append("g").attr("transform", "translate(" + padding + "," + padding + ")");
+
+    var xScale = d3.scaleLinear().domain([xmin, xmax]).range([0,400]);
+    var yScale = d3.scaleLinear().domain([ymin, ymax]).range([300,0]);
+
+    //add line
+    var line = d3.line()
+    .x(d => xScale(d.total_cost))
+    .y(d => yScale(d.life_expectancy));
+
+    // svg.append("path")
+    // .attr("class", "line")
+    // .attr("d", line(data))
+    // .style("stroke", "#000000")
+    // .style("fill", "none");
+
+    //add points
+    svg.selectAll('circle')
+    .data(data)
+    .enter()
+    .append('circle')
+    .attr('cx', function(d) {
+        return xScale(d.total_cost);
+    })
+    .attr('cy', function(d) {
+        return yScale(d.life_expectancy);
+    })
+    .attr('r', 1)
+    .attr('fill', "red");
+
+    // Add axes
+    svg.append("g").call(d3.axisLeft(yScale).ticks(3));
+    svg.append("g").call(d3.axisBottom(xScale).ticks(6))
+    .attr("transform", "translate(0," + (300) + ")");
+
+    // Add axis labels
+    svg.append("text").attr("transform", "translate(0, -20)").text("scatter plot");
+    svg.append("text").attr("transform", "rotate(270) translate(-170, -32)").text("life expectancy");
+    svg.append("text").attr("transform", "translate(200, 330)").text("total cost");
 }
