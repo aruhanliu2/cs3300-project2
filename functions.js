@@ -89,8 +89,8 @@ function scatterPlot(data) {
     var ymin = d3.min(data, function(d) { return +d.life_expectancy;} );
     // Now create a plot
     var svg = d3.select("#svg1")
-    .attr("height", 300 + 2 * padding).attr("width", 400 + 2 * padding)
-    .append("g").attr("transform", "translate(" + padding + "," + padding + ")");
+    // .attr("height", 300 + 2 * padding).attr("width", 400 + 2 * padding)
+     .append("g").attr("transform", "translate(" + padding + "," + padding + ")");
 
     var xScale = d3.scaleLinear().domain([xmin, xmax]).range([0,400]);
     var yScale = d3.scaleLinear().domain([ymin, ymax]).range([300,0]);
