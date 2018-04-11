@@ -1,10 +1,14 @@
-s<html>
+<html>
     <head>
         <title>CS3300 project 2</title>
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <script src="https://d3js.org/topojson.v2.min.js"></script>
         <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script src="https://unpkg.com/d3-simple-slider@0.2.0/build/d3-simple-slider.js"></script>
         <script src="functions.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
         <style>
             path.county { fill:#ccc; stroke:#fff; stroke-width: 0.5px }
             div.tooltip {
@@ -29,16 +33,18 @@ s<html>
     </head>
     <body>
         <div id="title"></div>
-        <p>
-            <label for="range1" style="display: inline-block; width: 240px; text-align: right; font-size: 15; font-weight: bolder; font-family: SF Pro Display;">
-                  Income = <span id="Income">…</span>
-            </label>
-            <input type="range" min="35000" max="105000" step="5000" id="range1">
-        </p>
+        <div class="container">
+            <div class="row align-items-center">
+            <div class="col-sm-2">
+                  Income: <span id="income">…</span>
+            </div>
+            <div id="slider2"></div>
+            </div>
+        </div>
 
         <div width = "100%" height="600">
             <svg id="map" height="600" width="1000"></svg>
-            <svg id="svg1" height="600" width="600"></svg>
+            <!--<svg id="svg1" height="600" width="600"></svg>-->
         </div>
 
         <div id="legend"></div>
@@ -159,14 +165,36 @@ s<html>
                 .on('mouseout', function(d) {
                     countyMouseOut(d);
                 })
-                scatterPlot(rawData);
+                //scatterPlot(rawData);
             }
+
             //the slider
             d3.select("#range1").on("input", function() {
-                update(+this.value, data);
+                //update(+this.value, data);
             });
+
+            var slider2 = d3.sliderHorizontal()
+            .min(d3.min([35,40]))
+            .max(105)
+            .step(5)
+            .width(400)
+            .on('onchange', val => {
+            d3.select("p#value2").text(val);
+                update(val * 1000, data);
+            });
+
+            var g = d3.select("div#slider2").append("svg")
+                .attr("width", 500)
+                .attr("height", 100)
+                .append("g")
+                .attr("transform", "translate(30,30)");
+            
+            g.call(slider2);
+
+            d3.select("p#value2").text((slider2.value()));
+            d3.select("a#setValue2").on("click", () => slider2.value(5));
             //initialize map
-            update(40000);
+            update(35000, data);
         </script>
     </body>
 </html>

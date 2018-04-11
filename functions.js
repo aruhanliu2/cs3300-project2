@@ -1,8 +1,8 @@
 // update the elements
 function update(value, data) {
     // adjust the text on the range slider
-    d3.select("#income").text(value);
-    d3.select("#range1").property("value", value);
+    d3.select("#income").text("$" + value/1000 + "K");
+    d3.select("#slider2").property("value", value);
 
     d3.selectAll("path.county").transition()
     .delay(100)
@@ -20,7 +20,7 @@ function fillMap(selection, data) {
     .style("fill", function(d) {
         var countyData = data.get(d.id);
         if (countyData) {
-            var inputValue = document.getElementById("range1").value;
+            var inputValue = slider2.value() * 1000;
             var cost = countyData.total_cost;
             var life = countyData.life_expectancy;
             if (inputValue * 0.45 >= cost) {
