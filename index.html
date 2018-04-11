@@ -1,4 +1,4 @@
-<html>
+s<html>
     <head>
         <title>CS3300 project 2</title>
         <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -7,23 +7,21 @@
         <script src="functions.js"></script>
         <style>
             path.county { fill:#ccc; stroke:#fff; stroke-width: 0.5px }
-            div.tooltip {   
-                position: absolute;         
-                text-align: center;         
-                width: 160px;                    
-                height: 60px;                   
-                padding: 2px;               
-                font: 15px sans-serif;      
-                background: lightsteelblue; 
-                border: 0px;        
-                border-radius: 8px;         
-                pointer-events: none;           
+            div.tooltip {
+                position: absolute;
+                text-align: center;
+                width: 160px;
+                height: 60px;
+                padding: 2px;
+                font: 15px sf pro display;
+                background: lightsteelblue;
+                border: 0px;
+                border-radius: 8px;
+                pointer-events: none;
             }
-
             .legend rect{
                 stroke: #000;
             }
-
             .legend, .legend_title text{
                 font-size:10pt;
             }
@@ -32,8 +30,8 @@
     <body>
         <div id="title"></div>
         <p>
-            <label for="range1" style="display: inline-block; width: 240px; text-align: right">
-                income = <span id="income">…</span>
+            <label for="range1" style="display: inline-block; width: 240px; text-align: right; font-size: 15; font-weight: bolder; font-family: SF Pro Display;">
+                  Income = <span id="Income">…</span>
             </label>
             <input type="range" min="35000" max="105000" step="5000" id="range1">
         </p>
@@ -46,67 +44,58 @@
         <div id="legend"></div>
 
         <script>
-
             // Define the div for the tooltip
-            var div = d3.select("body").append("div")   
-                .attr("class", "tooltip")               
+            var div = d3.select("body").append("div")
+                .attr("class", "tooltip")
                 .style("opacity", 0);
-
             //graph title
             var title = d3.select("#title")
                 .append("svg")
                 .attr("width", 900)
                 .attr("height", 50);
-                
+
             title.append("text")
                 .attr("transform", "translate(460,40)")
                 .attr("text-anchor", "middle")
-                .style("font-size", 22)
+                .style("font-size", 20)
                 .style("font-weight", "bolder")
-                .style("font-family", "sans-serif")
-                .text("Income and Affordablity");
-
+                .style("font-family", "Courier")
+                .text("How long can you afford to live?: lifespans and cost of living across the USA");
             var svg = d3.select("#map");
             var projection = d3.geoAlbersUsa().scale(75);
             var pathGenerator = d3.geoPath().projection(projection);
             var counties;
             var data;
             var inputValue = null;
-
             //define color scale
-            var color_na = d3.rgb("#d4d4d4"); 
-            var colors = ["#FAE6DB","#F2B196","#EB7254","#CD3E32","#98241F"];
+            var color_na = d3.rgb("#d4d4d4");
+            var colors = ["#CFDBC5","#C0D9AF","#9DB68C","#61B329","#397D02"];
             var colorScale = d3.scaleLinear().domain([66.81,70.814,74.818,78.822,82.826,86.83]).range(colors);
-
             //extreme values
             var county_longest;
             var county_shortest;
             var longest_life_expectancy;
             var shortest_life_expectancy;
-
             //initialize legend container
             var legend = d3.select("#legend")
                 .append("svg")
                 .attr("width", 900)
                 .attr("height", 200)
-
             //add legend title
             legend.append("text")
             .attr("transform", "translate(50, 10)")
             .style("font-size", 15)
             .style("font-weight", "bold")
-            .style("font-family", "sans-serif")
+            .style("font-family", "SF Pro Display")
             .text("legend for life expectancy");
-
             //initialize legend
             legendData = [
-                {"coordinates": [50,30], "color": "#FAE6DB", "text": "66.81-70.814"},
-                {"coordinates": [50,60], "color": "#F2B196", "text": "70.814-74.818"},
-                {"coordinates": [50,90], "color": "#EB7254", "text": "74.818-78.822"},
-                {"coordinates": [50,120], "color": "#CD3E32", "text": "78.822-82.826"},
-                {"coordinates": [50,150], "color": "#98241F", "text": "82.826-86.83"}
+                {"coordinates": [50,30], "color": "#CFDBC5", "text": "66.81-70.814"},
+                {"coordinates": [50,60], "color": "#C0D9AF", "text": "70.814-74.818"},
+                {"coordinates": [50,90], "color": "#9DB68C", "text": "74.818-78.822"},
+                {"coordinates": [50,120], "color": "#61B329", "text": "78.822-82.826"},
+                {"coordinates": [50,150], "color": "#397D02", "text": "82.826-86.83"}
             ];
-
             legendData.forEach(function(d){
                 legend.append("rect")
                 .attr("x", d.coordinates[0])
@@ -117,38 +106,35 @@
                 .style("opacity", 0.8)
                 .on("mouseover", function(d) { legendMouseOver(d, data)})
                 .on("mouseout", function() { legendMouseOut(data)})
-
                 var y = d.coordinates[1] + 15;
                 legend.append("text")
                 .attr("transform", "translate(100 , " + y + ")")
                 .style("font-size", 15)
-                .style("font-family", "sans-serif")
+                .style("font-family", "SF Pro Display")
                 .text(d.text);
             });
-
             //adding the counties with longest life expectancy
             legend.append("text")
                 .attr("id", "county1")
                 .attr("transform", "translate(300,40)")
                 .style("font-size", 15)
                 .style("font-weight", "bolder")
-                .style("font-family", "sans-serif")
+                .style("font-family", "SF Pro Display")
                 .text("longest life expectancy: " + county_longest + ", " + longest_life_expectancy)
-            
+
             legend.append("text")
                 .attr("id", "county2")
                 .attr("transform", "translate(300,80)")
                 .style("font-size", 15)
                 .style("font-weight", "bolder")
-                .style("font-family", "sans-serif")
+                .style("font-family", "SF Pro Display")
                 .text("shortest life expectancy: " + county_shortest + ", " + shortest_life_expectancy)
-
             //load data
             d3.queue()
             .defer(d3.json, "us.json")
             .defer(d3.csv, "us_county_health_wealth.csv")
             .await(callback);
-    
+
             function callback(error, rawMap, rawData){
                 data = d3.map(rawData, function(d) {
                     return Number(d.FIPS);
@@ -156,7 +142,6 @@
                 counties = topojson.feature(rawMap, rawMap.objects.counties);
                 projection.fitExtent([[0,0], [svg.attr("width"), svg.attr("height")]], counties);
                 pathGenerator = d3.geoPath().projection(projection);
-
                 //init map
                 svg.selectAll("path.county")
                 .data(counties.features)
@@ -164,26 +149,22 @@
                 .attr("class", "county")
                 .attr("d", function(county) {
                     return pathGenerator(county);
-                })              
+                })
                 .call(fillMap, data)
-
                 //mouse hovering
                 .on('mouseover', function(d) {
                     var currentState = this;
                     countyMouseOver(currentState, data.get(d.id));
                 })
-                .on('mouseout', function(d) { 
-                    countyMouseOut(d);  
+                .on('mouseout', function(d) {
+                    countyMouseOut(d);
                 })
-
                 scatterPlot(rawData);
             }
-
             //the slider
             d3.select("#range1").on("input", function() {
                 update(+this.value, data);
             });
-
             //initialize map
             update(40000);
         </script>
