@@ -6,20 +6,17 @@
         <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
         <script src="https://unpkg.com/d3-simple-slider@0.2.0/build/d3-simple-slider.js"></script>
         <script src="functions.js"></script>
-<<<<<<< HEAD
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
         crossorigin="anonymous">
-=======
-        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
->>>>>>> 37ccf3a3b13f6c9b77bbab9eb5a49bfdb8d4648e
 
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
         <style>
             path.county { fill:#ccc; stroke:#fff; stroke-width: 0.5px }
             div.tooltip {
                 position: absolute;
                 text-align: center;
                 width: 160px;
-                height: 60px;
+                height: 95px;
                 padding: 2px;
                 font: 15px sf pro display;
                 background: lightsteelblue;
@@ -37,7 +34,7 @@
     </head>
     <body>
         <div id="title"></div>
-<<<<<<< HEAD
+
         <div class="container">
             <div class="row align-items-center">
             <div class="col-sm-2">
@@ -50,23 +47,22 @@
         <div width = "100%" height="600">
             <svg id="map" height="600" width="1000"></svg>
             <!--<svg id="svg1" height="600" width="600"></svg>-->
-=======
-        <div  style="float:left; margin-right: 100" id ="slider" > 
+
+        <!-- <div  style="float:left; margin-right: 100" id ="slider" >
         <p>
             <label for="range1" style="display: inline-block; width: 240px; text-align: right; font-size: 15; font-weight: bolder; font-family: SF Pro Display;">
                   Income = <span id="Income">…</span>
             </label>
             <input type="range" min="35000" max="105000" step="5000" id="range1">
         </p>
-        </div>    
+        </div>
         <div  id="longest"></div>
 
         <div width = "100%" height="600">
             <svg id="map" height="600" width="1000"></svg>
 <!--            <svg id="svg1" height="600" width="600"></svg>-->
->>>>>>> 37ccf3a3b13f6c9b77bbab9eb5a49bfdb8d4648e
         </div>
-         <div style="display: inline-block" id="legend"></div>
+         <div style="display: inline-block" id="legend"></div> 
 
 
         <script>
@@ -79,7 +75,6 @@
                 .append("svg")
                 .attr("width", 1000)
                 .attr("height", 150);
-
             title.append("text")
                 .attr("transform", "translate(300,40)")
                 .attr("text-anchor", "middle")
@@ -94,31 +89,31 @@
                 .style("font-weight", "medium")
                 .style("font-family", "Raleway")
                 .text("lifespans and cost-of-living across the US");
-            
+
              title.append("text")
                 .attr("transform", "translate(100,95)")
                 .attr("text-anchor", "left")
                 .style("font-size", 15)
                 .style("font-weight", "medium")
                 .style("font-family", "Raleway")
-                .text("According to the Center for Neighborhood Technology you can afford to live in a place if you have to spend no more than 45% "); 
-            
+                .text("According to the Center for Neighborhood Technology you can afford to live in a place if you have to spend no more than 45% ");
+
              title.append("text")
                 .attr("transform", "translate(100,115)")
                 .attr("text-anchor", "left")
                 .style("font-size", 15)
                 .style("font-weight", "medium")
                 .style("font-family", "Raleway")
-                .text("of your income on housing and transportation. This map shows you which counties are affordable at different incomes,"); 
+                .text("of your income on housing and transportation. This map shows you which counties are affordable at different incomes,");
             title.append("text")
                 .attr("transform", "translate(100,135)")
                 .attr("text-anchor", "left")
                 .style("font-size", 15)
                 .style("font-weight", "medium")
                 .style("font-family", "Raleway")
-                .text(" along with that county's life expectancy "); 
-            
-            
+                .text(" along with that county's life expectancy ");
+
+
             var svg = d3.select("#map");
             var projection = d3.geoAlbersUsa().scale(75);
             var pathGenerator = d3.geoPath().projection(projection);
@@ -127,7 +122,7 @@
             var inputValue = null;
             //define color scale
             var color_na = d3.rgb("#d4d4d4");
-            var colors = ["#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"];           
+            var colors = ["#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"];
             var colorScale = d3.scaleLinear().domain([66,75.64,77.26,78.56,79.82,87]).range(colors);
             //extreme values
             var county_longest;
@@ -171,15 +166,15 @@
                 .style("font-size", 15)
                 .style("font-family", "SF Pro Display")
                 .text(d.text);
-                
+
             });
-            
-            
+
+
             var longest = d3.select("#longest")
                 .append("svg")
                 .attr("width", 400)
                 .attr("height", 100)
-            
+
             //adding the counties with longest life expectancy
             longest.append("text")
                 .attr("id", "county1")
@@ -188,7 +183,6 @@
                 .style("font-weight", "bolder")
                 .style("font-family", "SF Pro Display")
                 .text("County where you will live longest" + county_longest + ", " + longest_life_expectancy)
-
 //            longest.append("text")
 //                .attr("id", "county2")
 //                .attr("transform", "translate(10,80)")
@@ -201,7 +195,6 @@
             .defer(d3.json, "us.json")
             .defer(d3.csv, "us_county_health_wealth.csv")
             .await(callback);
-
             function callback(error, rawMap, rawData){
                 data = d3.map(rawData, function(d) {
                     return Number(d.FIPS);
@@ -228,12 +221,10 @@
                 })
                 //scatterPlot(rawData);
             }
-
             //the slider
             d3.select("#range1").on("input", function() {
                 //update(+this.value, data);
             });
-
             var slider2 = d3.sliderHorizontal()
             .min(d3.min([35,40]))
             .max(105)
@@ -243,15 +234,13 @@
             d3.select("p#value2").text(val);
                 update(val * 1000, data);
             });
-
             var g = d3.select("div#slider2").append("svg")
                 .attr("width", 500)
                 .attr("height", 100)
                 .append("g")
                 .attr("transform", "translate(30,30)");
-            
-            g.call(slider2);
 
+            g.call(slider2);
             d3.select("p#value2").text((slider2.value()));
             d3.select("a#setValue2").on("click", () => slider2.value(5));
             //initialize map
