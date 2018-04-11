@@ -63,8 +63,10 @@ function countyMouseOver(currentState, d) {
     d3.select(currentState).style('fill-opacity', 1);
     div.transition()        
         .duration(200)      
-        .style("opacity", .9);      
-    div .html(d.county + "<br>" + "total cost: " + d.total_cost + "<br>" + "life_expectancy: " + d.life_expectancy)  
+        .style("opacity", .9);   
+    var income_needed= ((d.total_cost*100)/45);
+    income_needed= parseFloat(income_needed).toFixed(2);
+    div .html(d.county + "<br>" + "income needed: " + income_needed + "<br>" + "life expectancy: " + d.life_expectancy)  
         .style("left", (d3.event.pageX) + "px")     
         .style("top", (d3.event.pageY - 28) + "px");  
 }
