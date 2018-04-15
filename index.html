@@ -38,24 +38,33 @@
 
         <div class="container">
             <div class="row align-items-center">
-            <div class="col-sm-2"
-            <div style="font-family:Raleway; font-size:25; display: float-right">
+
+              <div class="col-sm-2"
+              <div style="font-family:Raleway; font-size:25; float:right">
                   Income: <span id="income" >…</span>
-            </div>
+              </div>
+
             <div id="slider2"></div>
-            <div class="col-sm-4">
+
+            <div class="col-sm-2">
             <div style="display: inline-block" id="legend"></div>
-          </div>
-          <div  id="longest"></div>
+
+            </div>
+          <!-- </div>
+          <div class="row align-items-center">
+          <div style="float:left" id="longest"></div>
+ -->
+
           <div width = "100%" height="600">
               <svg id="map" height="600" width="1000"></svg>
-              <svg id="svg1" height="600" width="600"></svg>
-        </div>
+              <!-- <svg id="svg1" height="600" width="600"></svg> -->
+          </div>
 
 
-        <div width = "100%" height="600">
-            <svg id="map" height="600" width="1000"></svg>
-        <svg id="svg1" height="600" width="600"></svg>
+        <!-- <div width = "100%" height="600">
+        <svg id="map" height="600" width="1000"></svg> -->
+
+        <!-- <svg id="svg1" height="600" width="600"></svg> -->
 
         <!-- <div  style="float:left; margin-right: 100" id ="slider" >
         <p>
@@ -90,11 +99,11 @@
                 .style("font-size", 18)
                 .style("font-weight", "medium")
                 .style("font-family", "Raleway")
-                .text("lifespans and cost-of-living across the US");
+                .text("lifespans and cost-of-living across US Counties");
              title.append("text")
-                .attr("transform", "translate(100,105)")
+                .attr("transform", "translate(125,95)")
                 .attr("text-anchor", "left")
-                .style("font-size", 20)
+                .style("font-size", 15)
                 .style("font-weight", "medium")
                 .style("font-family", "Raleway")
                 .text("(Affordability = no more than 45% of income spent on = 🏠 + 🚊)");
@@ -167,23 +176,23 @@
             });
             var longest = d3.select("#longest")
                 .append("svg")
-                .attr("width", 400)
+                .attr("width", 350)
                 .attr("height", 100)
             //adding the counties with longest life expectancy
             longest.append("text")
                 .attr("id", "county1")
-                .attr("transform", "translate(140,40)")
+                .attr("transform", "translate(10,40)")
                 .style("font-size", 15)
                 .style("font-weight", "bolder")
                 .style("font-family", "SF Pro Display")
                 .text("County where you will live longest" + county_longest + ", " + longest_life_expectancy)
-//            longest.append("text")
-//                .attr("id", "county2")
-//                .attr("transform", "translate(10,80)")
-//                .style("font-size", 15)
-//                .style("font-weight", "bolder")
-//                .style("font-family", "SF Pro Display")
-//                .text("shortest life expectancy: " + county_shortest + ", " + shortest_life_expectancy)
+           longest.append("text")
+               .attr("id", "county2")
+               .attr("transform", "translate(10,80)")
+               .style("font-size", 15)
+               .style("font-weight", "bolder")
+               .style("font-family", "SF Pro Display")
+               .text("shortest life expectancy: " + county_shortest + ", " + shortest_life_expectancy)
             //load data
             d3.queue()
             .defer(d3.json, "us.json")
