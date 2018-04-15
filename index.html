@@ -1,3 +1,4 @@
+
 <html>
     <head>
         <title>CS3300 project 2</title>
@@ -37,16 +38,24 @@
 
         <div class="container">
             <div class="row align-items-center">
-            <div class="col-sm-2">
-                  Income: <span id="income">…</span>
+            <div class="col-sm-2"
+            <div style="font-family:Raleway; font-size:25; display: float-right">
+                  Income: <span id="income" >…</span>
             </div>
             <div id="slider2"></div>
-            </div>
+            <div class="col-sm-4">
+            <div style="display: inline-block" id="legend"></div>
+          </div>
+          <div  id="longest"></div>
+          <div width = "100%" height="600">
+              <svg id="map" height="600" width="1000"></svg>
+              <svg id="svg1" height="600" width="600"></svg>
         </div>
+
 
         <div width = "100%" height="600">
             <svg id="map" height="600" width="1000"></svg>
-            <!--<svg id="svg1" height="600" width="600"></svg>-->
+        <svg id="svg1" height="600" width="600"></svg>
 
         <!-- <div  style="float:left; margin-right: 100" id ="slider" >
         <p>
@@ -55,17 +64,10 @@
             </label>
             <input type="range" min="35000" max="105000" step="5000" id="range1">
         </p>
-        </div>
-        <div  id="longest"></div>
-
-        <div width = "100%" height="600">
-            <svg id="map" height="600" width="1000"></svg>
-<!--            <svg id="svg1" height="600" width="600"></svg>-->
-        </div>
-         <div style="display: inline-block" id="legend"></div> 
-
+        </div> -->
 
         <script>
+
             // Define the div for the tooltip
             var div = d3.select("body").append("div")
                 .attr("class", "tooltip")
@@ -76,12 +78,12 @@
                 .attr("width", 1000)
                 .attr("height", 150);
             title.append("text")
-                .attr("transform", "translate(300,40)")
+                .attr("transform", "translate(350,40)")
                 .attr("text-anchor", "middle")
                 .style("font-size", 25)
                 .style("font-weight", "medium")
                 .style("font-family", "Raleway")
-                .text("How long can you afford to live?");
+                .text("Can you pay your way to a better, longer life?");
              title.append("text")
                 .attr("transform", "translate(300,65)")
                 .attr("text-anchor", "middle")
@@ -89,31 +91,27 @@
                 .style("font-weight", "medium")
                 .style("font-family", "Raleway")
                 .text("lifespans and cost-of-living across the US");
-
              title.append("text")
-                .attr("transform", "translate(100,95)")
+                .attr("transform", "translate(100,105)")
                 .attr("text-anchor", "left")
-                .style("font-size", 15)
+                .style("font-size", 20)
                 .style("font-weight", "medium")
                 .style("font-family", "Raleway")
-                .text("According to the Center for Neighborhood Technology you can afford to live in a place if you have to spend no more than 45% ");
-
-             title.append("text")
-                .attr("transform", "translate(100,115)")
-                .attr("text-anchor", "left")
-                .style("font-size", 15)
-                .style("font-weight", "medium")
-                .style("font-family", "Raleway")
-                .text("of your income on housing and transportation. This map shows you which counties are affordable at different incomes,");
-            title.append("text")
-                .attr("transform", "translate(100,135)")
-                .attr("text-anchor", "left")
-                .style("font-size", 15)
-                .style("font-weight", "medium")
-                .style("font-family", "Raleway")
-                .text(" along with that county's life expectancy ");
-
-
+                .text("(Affordability = no more than 45% of income spent on = 🏠 + 🚊)");
+             // title.append("text")
+             //    .attr("transform", "translate(100,115)")
+             //    .attr("text-anchor", "left")
+             //    .style("font-size", 15)
+             //    .style("font-weight", "medium")
+             //    .style("font-family", "Raleway")
+             //    .text("of your income on housing and transportation. This map shows you which counties are affordable at different incomes,");
+            // title.append("text")
+            //     .attr("transform", "translate(100,135)")
+            //     .attr("text-anchor", "left")
+            //     .style("font-size", 15)
+            //     .style("font-weight", "medium")
+            //     .style("font-family", "Raleway")
+            //     .text(" along with that county's life expectancy ");
             var svg = d3.select("#map");
             var projection = d3.geoAlbersUsa().scale(75);
             var pathGenerator = d3.geoPath().projection(projection);
@@ -132,8 +130,8 @@
             //initialize legend container
             var legend = d3.select("#legend")
                 .append("svg")
-                .attr("width", 300)
-                .attr("height", 250)
+                .attr("width", 250)
+                .attr("height", 175)
             //add legend title
             legend.append("text")
             .attr("transform", "translate(50, 15)")
@@ -166,15 +164,11 @@
                 .style("font-size", 15)
                 .style("font-family", "SF Pro Display")
                 .text(d.text);
-
             });
-
-
             var longest = d3.select("#longest")
                 .append("svg")
                 .attr("width", 400)
                 .attr("height", 100)
-
             //adding the counties with longest life expectancy
             longest.append("text")
                 .attr("id", "county1")
@@ -239,7 +233,6 @@
                 .attr("height", 100)
                 .append("g")
                 .attr("transform", "translate(30,30)");
-
             g.call(slider2);
             d3.select("p#value2").text((slider2.value()));
             d3.select("a#setValue2").on("click", () => slider2.value(5));
