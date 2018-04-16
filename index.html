@@ -326,8 +326,8 @@
             var histogramData = [{"group":"66-75.64","quantity":24},{"group":"75.64-77.26","quantity":15},{"group":"77.26-78.56","quantity":3},{"group":"78.56-79.82","quantity":2},{"group":"79.82-87","quantity":30}]
 
             const WIDTH = 400;
-            const HEIGHT = 200;
-            const INNER_HEIGHT = HEIGHT - 40;
+            const HEIGHT = 180;
+            const INNER_HEIGHT = HEIGHT - 30;
             const BAR_WIDTH = 50;
             const BAR_GAP = 4;
         
@@ -347,12 +347,6 @@
                 .attr("width", WIDTH)
                 .attr("height", HEIGHT)
               .append("g");
-
-            //  d3.select("#chart")
-            //  .append("text")
-            //  .attr("transform", "translate(-100,10)")
-            //  .attr("text-anchor", "middle")
-            //  .text("I love you");
             
             updateHistogram(preprocess(DATA));
             updateHistogram(preprocess(DATA));
