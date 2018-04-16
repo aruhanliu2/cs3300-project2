@@ -87,9 +87,10 @@
 
         <div style="float: left; width: 40%" height="100%">
             <p style="font-family: Raleway; font-weight: bolder;">affordable counties vs unaffordable counties as income increases</p>
-            <svg id="piechart" height="350" width="600"></svg>
-            <p style="padding-left: 120px; font-weight: bold; font-family: Raleway;">age group comparison</p>
+            <svg id="piechart" height="330" width="600"></svg>
+            <p style="padding-left: 140px; font-weight: bold; font-family: Raleway;">age group comparison</p>
             <div style="text-align: center;" height="600" width="800" id="chart"></div>
+            <pre style="padding-left: 100px; font-size: 12px">66-71  71-75   75-79  79-83  83-87</pre>
         </div>
 
         </div>
@@ -326,8 +327,8 @@
 
             const WIDTH = 400;
             const HEIGHT = 200;
-            const INNER_HEIGHT = HEIGHT - 30;
-            const BAR_WIDTH = 40;
+            const INNER_HEIGHT = HEIGHT - 40;
+            const BAR_WIDTH = 50;
             const BAR_GAP = 4;
         
             const scale = d3.scaleLinear()
@@ -346,6 +347,12 @@
                 .attr("width", WIDTH)
                 .attr("height", HEIGHT)
               .append("g");
+
+            //  d3.select("#chart")
+            //  .append("text")
+            //  .attr("transform", "translate(-100,10)")
+            //  .attr("text-anchor", "middle")
+            //  .text("I love you");
             
             updateHistogram(preprocess(DATA));
             updateHistogram(preprocess(DATA));

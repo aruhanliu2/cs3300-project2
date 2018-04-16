@@ -38,7 +38,7 @@ function fillMap(selection, data) {
                 } else {
                     countArray[4]++;
                 }
-                var sum = 30;
+                var sum = 20;
                 DATA[0] = countArray[0] / sum;
                 DATA[1] = countArray[1] / sum;
                 DATA[2] = countArray[2] / sum;
@@ -197,17 +197,21 @@ function updateHistogram(data) {
         .scale(xScale)
     xScale.domain(xlabels.map(function(d) { return d.label; }));
 
+    var yScale = d3.scaleLinear()
+    .domain([0, d3.max(data)])
+    .range([0, HEIGHT]);
+
     const t = d3.transition()
         .duration(750);
     
     const bar = histogram.selectAll("g")
       .data(data, d => d.id);
     
-      var xAxis_g = bar.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + (height) + ")")
-      .call(xAxis)
-      .selectAll("text");
+    var xAxis_g = bar.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + (height) + ")")
+    .call(xAxis)
+    .selectAll("text");
 
     // EXIT section
     bar
@@ -218,11 +222,6 @@ function updateHistogram(data) {
     bar
       .transition(t)
         .attr("transform", (d, i) => `translate(${i * (BAR_WIDTH + BAR_GAP)},${y(d)})`);
-    
-    // bar.select("rect")
-    //   .transition(t)
-    //     .attr("height", height)
-    //     .attr("fill", "#ffb832");
 
     bar.select("text")
       .transition(t)
@@ -263,7 +262,7 @@ function updateHistogram(data) {
         })
         .attr("text-anchor", "middle")
         .attr("dx", BAR_WIDTH / 2)
-        .attr("dy", -2);
+        .attr("dy", -2);  
 }
 
 function preprocess(data) {
