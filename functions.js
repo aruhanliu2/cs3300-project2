@@ -44,7 +44,7 @@ function fillMap(selection, data) {
                 DATA[2] = countArray[2] / sum;
                 DATA[3] = countArray[3] / sum;
                 DATA[4] = countArray[4] / sum;
-                affordablePercent = Math.round(affordableCount / 3118 * 100) + "%";
+                affordablePercent = (affordableCount / 3118 * 100).toFixed(1) + "%";
                 if (longest_life_expectancy < countyData.life_expectancy) {
                     longest_life_expectancy = countyData.life_expectancy;
                     county_longest = countyData.county;
@@ -63,10 +63,10 @@ function fillMap(selection, data) {
     })
 
     d3.select("#county1")
-    .text("longest life expectancy: " + county_longest + ", " + longest_life_expectancy)
+    .text("County where you will live longest: " + county_longest + ", " + longest_life_expectancy)
     
     d3.select("#county2")
-    .text("shortest life expectancy: " + county_shortest + ", " + shortest_life_expectancy)
+    .text("County with shortest life expectancy: " + county_shortest + ", " + shortest_life_expectancy)
 }
 
 function countyMouseOver(currentState, d) {
