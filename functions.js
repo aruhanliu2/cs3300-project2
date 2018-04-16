@@ -61,6 +61,7 @@ function fillMap(selection, data) {
             return color_na;
         }
     })
+
     d3.select("#county1")
     .text("longest life expectancy: " + county_longest + ", " + longest_life_expectancy)
     
