@@ -78,18 +78,18 @@
         <div id="title"></div>
         <div>
 
-        <div style="float: left; width: 60%">
+        <div style="float: left; width: 60%" height="100%">
             <div style="float: left; width: 10%; margin-left: 100px">Income: <span style="font-size: 30px" id="income" >…</span></div>
             <div style="float: left; width: 50%" id="slider2"></div>
             <div style="float: left; width: 5%" id="legend"></div>
             <svg id="map" height="500" width="960"></svg>
         </div>
 
-        <div style="float: left; width: 40%">
+        <div style="float: left; width: 40%" height="100%">
             <p style="font-weight: bold;">affordable counties vs unaffordable counties as income increases</p>
             <svg id="piechart" height="350" width="600"></svg>
             <p style="padding-left: 120px; font-weight: bold;">age group comparison</p>
-            <div style="text-align: center;" height="600" width="600" id="chart"></div>
+            <div style="text-align: center;" height="600" width="800" id="chart"></div>
         </div>
 
         </div>
@@ -145,7 +145,7 @@
             var county_shortest;
             var longest_life_expectancy;
             var shortest_life_expectancy;
-            var affordableCount = 0;
+            var affordableCount = 471;
             var affordablePercent = "0%";
             var countArray = [0,0,0,0,0];
 
@@ -246,10 +246,10 @@
                 })
                 //scatterPlot(rawData);
             }
-            update(35000, data);
+            update(65000, data);
 
 
-            var DATA = [10, 20, 40, 70, 50];
+            var DATA = [0,9,66,56,2];
 
             //the slider
             var slider2 = d3.sliderHorizontal()
@@ -257,7 +257,7 @@
                 .max(105)
                 .step(5)
                 .width(400)
-                .default(35)
+                .default(65)
                 .on('onchange', val => {
                     // d3.select("p#value2").text(val);
                     update(val * 1000, data);
@@ -283,10 +283,10 @@
             
             piechart.append("text")
                 .attr("class", "indicator")
+                .attr("id", "percentNumber")
                 .attr("transform", "translate(-2,14)")
                 .attr("text-anchor", "middle")
-                .attr("id", "indicator")
-                .text("0%");
+   
 
                 piechart.append("g")
                 .attr("class", "slices")
@@ -319,6 +319,7 @@
             .attr("transform", "translate(" + transformX + "," + transformY+ ")");
 
             change(randomData());
+            affordableCount = 3118 - 471;
             change(randomData());
 
             //histogram

@@ -38,12 +38,12 @@ function fillMap(selection, data) {
                 } else {
                     countArray[4]++;
                 }
-                
-                DATA[0] = countArray[0] / 20;
-                DATA[1] = countArray[1] / 20;
-                DATA[2] = countArray[2] / 20;
-                DATA[3] = countArray[3] / 20;
-                DATA[4] = countArray[4] / 20;
+                var sum = 20;
+                DATA[0] = countArray[0] / sum;
+                DATA[1] = countArray[1] / sum;
+                DATA[2] = countArray[2] / sum;
+                DATA[3] = countArray[3] / sum;
+                DATA[4] = countArray[4] / sum;
                 affordablePercent = Math.round(affordableCount / 3118 * 100) + "%";
                 if (longest_life_expectancy < countyData.life_expectancy) {
                     longest_life_expectancy = countyData.life_expectancy;
@@ -111,7 +111,7 @@ function randomData(){
 
 function change(data) {
     /* ------- PIE SLICES -------*/
-    d3.select("#indicator").text(affordablePercent);
+    d3.select("#percentNumber").text(affordablePercent);
 	var slice = piechart.select(".slices").selectAll("path.slice")
         .data(pie(data), key);
 
@@ -208,7 +208,6 @@ function updateHistogram(data) {
         .scale(xScale)
     xScale.domain(xlabels.map(function(d) { return d.label; }));
 
-        
     const t = d3.transition()
         .duration(750);
     
@@ -264,8 +263,10 @@ function updateHistogram(data) {
       .transition(t)
         .attr("height", height);
     
-    const text = barEnter.append("text")
-        .text(d => d.value)
+    var text = barEnter.append("text")
+        .text(function(d) {
+            return result = d.value;
+        })
         .attr("text-anchor", "middle")
         .attr("dx", BAR_WIDTH / 2)
         .attr("dy", -2);
