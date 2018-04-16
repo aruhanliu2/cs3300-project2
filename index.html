@@ -79,21 +79,20 @@
         <div>
 
         <div style="float: left; width: 60%" height="100%">
-            <div style="float: left; width: 10%; margin-left: 100px">Income: <span style="font-size: 30px" id="income" >…</span></div>
+            <div style="float: left; width: 10%; margin-left: 100px; font-family: Raleway;">Income: <span style="font-size: 30px" id="income" >…</span></div>
             <div style="float: left; width: 50%" id="slider2"></div>
             <div style="float: left; width: 5%" id="legend"></div>
             <svg id="map" height="500" width="960"></svg>
         </div>
 
         <div style="float: left; width: 40%" height="100%">
-            <p style="font-weight: bold;">affordable counties vs unaffordable counties as income increases</p>
+            <p style="font-family: Raleway; font-weight: bolder;">affordable counties vs unaffordable counties as income increases</p>
             <svg id="piechart" height="350" width="600"></svg>
-            <p style="padding-left: 120px; font-weight: bold;">age group comparison</p>
+            <p style="padding-left: 120px; font-weight: bold; font-family: Raleway;">age group comparison</p>
             <div style="text-align: center;" height="600" width="800" id="chart"></div>
         </div>
 
         </div>
-
         <!-- <div id="longest"></div> -->
         <script>
             // Define the div for the tooltip
@@ -125,8 +124,7 @@
                 .style("font-size", 15)
                 .style("font-weight", "medium")
                 .style("font-family", "Raleway")
-                .text("(Affordability = no more than 45% of income spent on)")
-
+                .text("(Affordability = no more than 45% of income spent on housing and transportation)")
             var svg = d3.select("#map")
             .attr("transform", "translate(-80,0)")
             var projection = d3.geoAlbersUsa().scale(75);
@@ -164,7 +162,7 @@
             .attr("transform", "translate(50, 15)")
             .style("font-size", 15)
             .style("font-weight", "bold")
-            .style("font-family", "SF Pro Display")
+            .style("font-family", "Raleway")
             .text("life expectancy / year");
 
             //initialize legend
@@ -191,7 +189,8 @@
                 legend.append("text")
                 .attr("transform", "translate(80 , " + y + ")")
                 .style("font-size", 15)
-                .style("font-family", "SF Pro Display")
+                .style("font-weight", "bold")
+                .style("font-family", "Raleway")
                 .text(d.text);
             });
 
@@ -205,15 +204,15 @@
                 .attr("id", "county1")
                 .attr("transform", "translate(10,40)")
                 .style("font-size", 15)
-                .style("font-weight", "bolder")
-                .style("font-family", "SF Pro Display")
+                .style("font-weight", "bold")
+                .style("font-family", "Raleway")
                 .text("County where you will live longest" + county_longest + ", " + longest_life_expectancy)
            longest.append("text")
                .attr("id", "county2")
                .attr("transform", "translate(10,80)")
                .style("font-size", 15)
-               .style("font-weight", "bolder")
-               .style("font-family", "SF Pro Display")
+                .style("font-weight", "bold")
+                .style("font-family", "Raleway")
                .text("shortes " + county_shortest + ", " + shortest_life_expectancy + affordableCount)
             //load data
             d3.queue()

@@ -233,7 +233,8 @@ function updateHistogram(data) {
     bar.select("rect")
       .transition(t)
         .attr("height", height)
-        .attr("fill", "#F3A73C");
+        .attr("fill", "#ffb832");
+        //'#ffb832','#c61c6f','#d33682'
     
     bar.select("text")
       .transition(t)
