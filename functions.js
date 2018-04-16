@@ -2,8 +2,6 @@
 function update(value, data) {
     // adjust the text on the range slider
     d3.select("#income").text("$" + value/1000 + "K");
-    d3.select("#slider2").property("value", value);
-
     d3.selectAll("path.county").transition()
     .delay(100)
     .call(fillMap, data);
@@ -16,6 +14,8 @@ function fillMap(selection, data) {
     longest_life_expectancy = 0;
     shortest_life_expectancy = 100;
     affordableCount = 0;
+    affordablePercent = "";
+    var countArray = [0,0,0,0,0];
 
     selection
     .style("fill", function(d) {
@@ -26,8 +26,25 @@ function fillMap(selection, data) {
             var life = countyData.life_expectancy;
             if (inputValue * 0.45 >= cost) {
                 affordableCount++;
+                //66,75.64,77.26,78.56,79.82,87
+                if (life >= 66 && life < 7) {
+                    countArray[0]++;
+                } else if (life >= 70 && life < 74) {
+                    countArray[1]++;
+                } else if (life >= 74 && life < 78) {
+                    countArray[2]++;
+                } else if (life >= 78 && life < 82) {
+                    countArray[3]++;
+                } else {
+                    countArray[4]++;
+                }
+                
+                DATA[0] = countArray[0] / 20;
+                DATA[1] = countArray[1] / 20;
+                DATA[2] = countArray[2] / 20;
+                DATA[3] = countArray[3] / 20;
+                DATA[4] = countArray[4] / 20;
                 affordablePercent = Math.round(affordableCount / 3118 * 100) + "%";
-                unaffordablePercent = Math.round((3118 - affordableCount) / 3118 * 100) + "%";
                 if (longest_life_expectancy < countyData.life_expectancy) {
                     longest_life_expectancy = countyData.life_expectancy;
                     county_longest = countyData.county;
@@ -44,14 +61,12 @@ function fillMap(selection, data) {
             return color_na;
         }
     })
-
+    console.log(DATA);
     d3.select("#county1")
     .text("longest life expectancy: " + county_longest + ", " + longest_life_expectancy)
     
     d3.select("#county2")
-    .text("shortest life expectancy: " + county_shortest + ", " + shortest_life_expectancy + affordableCount)
-
-
+    .text("shortest life expectancy: " + county_shortest + ", " + shortest_life_expectancy)
 }
 
 //event handlers
@@ -86,61 +101,19 @@ function countyMouseOut(d) {
     .duration(500)      
     .style("opacity", 0);
 }
-
-function scatterPlot(data) {
-    var padding = 45;
-    var padding2 = 20;
-
-    var xmax = d3.max(data, function(d) { return +d.total_cost;} );
-    var xmin = d3.min(data, function(d) { return +d.total_cost;} );
-    var ymax = d3.max(data, function(d) { return +d.life_expectancy;} );
-    var ymin = d3.min(data, function(d) { return +d.life_expectancy;} );
-    // Now create a plot
-    var svg = d3.select("#svg1")
-    // .attr("height", 300 + 2 * padding).attr("width", 400 + 2 * padding)
-     .append("g").attr("transform", "translate(" + padding + "," + padding + ")");
-
-    var xScale = d3.scaleLinear().domain([xmin, xmax]).range([0,400]);
-    var yScale = d3.scaleLinear().domain([ymin, ymax]).range([300,0]);
-
-
-    //add points
-    svg.selectAll('circle')
-    .data(data)
-    .enter()
-    .append('circle')
-    .attr('cx', function(d) {
-        return xScale(d.total_cost);
-    })
-    .attr('cy', function(d) {
-        return yScale(d.life_expectancy);
-    })
-    .attr('r', 1)
-    .attr('fill', "red");
-
-    // Add axes
-    svg.append("g").call(d3.axisLeft(yScale).ticks(3));
-    svg.append("g").call(d3.axisBottom(xScale).ticks(6))
-    .attr("transform", "translate(0," + (300) + ")");
-
-    // Add axis labels
-    svg.append("text").attr("transform", "translate(0, -20)").text("scatter plot");
-    svg.append("text").attr("transform", "rotate(270) translate(-170, -32)").text("life expectancy");
-    svg.append("text").attr("transform", "translate(200, 330)").text("total cost");
-}
-
-function randomData(affordableCount){
+  
+function randomData(){
     var labels = color.domain();
     var values = [affordableCount, 3118 - affordableCount];
-    var i = 0;
-    return [{label: labels[0], value: values[0] / 3118}, {label: labels[1], value: values[1] / 3118}];
+    var result = [{label: labels[0], value: values[0] / 3118}, {label: labels[1], value: values[1] / 3118}];
+    return result;
 }
 
 function change(data) {
-
     /* ------- PIE SLICES -------*/
+    d3.select("#indicator").text(affordablePercent);
 	var slice = piechart.select(".slices").selectAll("path.slice")
-		.data(pie(data), key);
+        .data(pie(data), key);
 
 	slice.enter()
 		.insert("path")
@@ -161,17 +134,18 @@ function change(data) {
 	slice.exit()
 		.remove();
 
-	/* ------- TEXT LABELS -------*/
+    /* ------- TEXT LABELS -------*/
 
-	var text = piechart.select(".labels").selectAll("text")
+    var text = piechart.select(".labels").selectAll("text")
 		.data(pie(data), key);
 
 	text.enter()
-		.append("text")
+        .append("text")
+        .attr("font-size", "15px")
 		.attr("dy", ".35em")
 		.text(function(d) {
 			return d.data.label;
-		});
+        });
 	
 	function midAngle(d){
 		return d.startAngle + (d.endAngle - d.startAngle)/2;
@@ -226,3 +200,78 @@ function change(data) {
 	polyline.exit()
 		.remove();
 };
+
+function updateHistogram(data) {
+    var xlabels = [{label: 1},{label: 1},{label: 1},{label: 1},{label: 1}];
+    var xScale = d3.scaleBand().range([0, WIDTH]).padding(0.3);
+    var xAxis = d3.axisBottom()
+        .scale(xScale)
+    xScale.domain(xlabels.map(function(d) { return d.label; }));
+
+        
+    const t = d3.transition()
+        .duration(750);
+    
+    const bar = histogram.selectAll("g")
+      .data(data, d => d.id);
+    
+      var xAxis_g = bar.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + (height) + ")")
+      .call(xAxis)
+      .selectAll("text");
+
+    // EXIT section
+    bar
+      .exit()
+        .remove();
+    
+    // UPDATE section
+    bar
+      .transition(t)
+        .attr("transform", (d, i) => `translate(${i * (BAR_WIDTH + BAR_GAP)},${y(d)})`);
+    
+    bar.select("rect")
+      .transition(t)
+        .attr("height", height)
+        .attr("fill", "red");
+    
+    bar.select("text")
+      .transition(t)
+        .tween("text", function(d) {
+          const v0 = this.textContent || "0";
+          const v1 = d.value;
+          const i = d3.interpolateRound(v0, v1);
+          return t => this.textContent = i(t);
+        });
+    
+    // ENTER section
+    const barEnter = bar
+      .enter().append("g")
+        .attr("transform", (d, i) => `translate(${i * (BAR_WIDTH + BAR_GAP)},${INNER_HEIGHT})`);
+  
+    barEnter
+      .transition(t)
+        .attr("transform", (d, i) => `translate(${i * (BAR_WIDTH + BAR_GAP)},${y(d)})`);
+    
+    const rect = barEnter.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", BAR_WIDTH)
+        .attr("height", 0);
+    
+    rect
+      .transition(t)
+        .attr("height", height);
+    
+    const text = barEnter.append("text")
+        .text(d => d.value)
+        .attr("text-anchor", "middle")
+        .attr("dx", BAR_WIDTH / 2)
+        .attr("dy", -2);
+}
+
+function preprocess(data) {
+    //data = d3.shuffle([...data]);
+    return data.map((d, i) => ({ id: i, value: d }));
+  }
