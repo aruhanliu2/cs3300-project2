@@ -27,7 +27,7 @@ function fillMap(selection, data) {
             if (inputValue * 0.45 >= cost) {
                 affordableCount++;
                 //66,75.64,77.26,78.56,79.82,87
-                if (life >= 66 && life < 7) {
+                if (life >= 66 && life < 70) {
                     countArray[0]++;
                 } else if (life >= 70 && life < 74) {
                     countArray[1]++;
@@ -38,7 +38,7 @@ function fillMap(selection, data) {
                 } else {
                     countArray[4]++;
                 }
-                var sum = 20;
+                var sum = 30;
                 DATA[0] = countArray[0] / sum;
                 DATA[1] = countArray[1] / sum;
                 DATA[2] = countArray[2] / sum;
@@ -61,23 +61,11 @@ function fillMap(selection, data) {
             return color_na;
         }
     })
-    console.log(DATA);
     d3.select("#county1")
     .text("longest life expectancy: " + county_longest + ", " + longest_life_expectancy)
     
     d3.select("#county2")
     .text("shortest life expectancy: " + county_shortest + ", " + shortest_life_expectancy)
-}
-
-//event handlers
-function legendMouseOver(color_key, data) {
-
-}
-
-function legendMouseOut() {
-    d3.selectAll("path").transition()
-        .delay(100)
-        .call(fillMap, data);
 }
 
 function countyMouseOver(currentState, d) {
@@ -202,6 +190,7 @@ function change(data) {
 };
 
 function updateHistogram(data) {
+    var colors = ["#ffffcc", "#a1dab4", "#41b6c4", "#2c7fb8", "#253494"];
     var xlabels = [{label: 1},{label: 1},{label: 1},{label: 1},{label: 1}];
     var xScale = d3.scaleBand().range([0, WIDTH]).padding(0.3);
     var xAxis = d3.axisBottom()
@@ -230,12 +219,11 @@ function updateHistogram(data) {
       .transition(t)
         .attr("transform", (d, i) => `translate(${i * (BAR_WIDTH + BAR_GAP)},${y(d)})`);
     
-    bar.select("rect")
-      .transition(t)
-        .attr("height", height)
-        .attr("fill", "#ffb832");
-        //'#ffb832','#c61c6f','#d33682'
-    
+    // bar.select("rect")
+    //   .transition(t)
+    //     .attr("height", height)
+    //     .attr("fill", "#ffb832");
+
     bar.select("text")
       .transition(t)
         .tween("text", function(d) {
@@ -253,10 +241,15 @@ function updateHistogram(data) {
     barEnter
       .transition(t)
         .attr("transform", (d, i) => `translate(${i * (BAR_WIDTH + BAR_GAP)},${y(d)})`);
-    
+
+    var i = -1;
     const rect = barEnter.append("rect")
         .attr("x", 0)
         .attr("y", 0)
+        .attr("fill", function(d) {
+            i++;
+            return colors[i];
+        })
         .attr("width", BAR_WIDTH)
         .attr("height", 0);
     
