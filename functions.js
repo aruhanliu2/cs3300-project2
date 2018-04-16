@@ -234,7 +234,7 @@ function updateHistogram(data) {
     bar.select("rect")
       .transition(t)
         .attr("height", height)
-        .attr("fill", "red");
+        .attr("fill", "#F3A73C");
     
     bar.select("text")
       .transition(t)
