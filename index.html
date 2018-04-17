@@ -103,29 +103,30 @@
         <div style="float: left; width: 60%" height="100%">
             <div style="float: left; width: 10%; margin-left: 100px; font-family: Raleway;">Income: <span style="font-size: 30px" id="income" >…</span></div>
             <div style="float: left; width: 50%" id="slider2"></div>
-            <!-- <div style="float: left; width: 5%" id="legend"></div> -->
-            <!-- <div style="float: left; width: 40%; padding-left: 40px">
-                <div style="padding-bottom: 75px;"id="legendText"></div>
-                <div>
-                <svg style="padding-top: 0px; float: left; width: 90%" id="legend" viewBox="0 0 233 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <defs>
-                        <linearGradient x1="50%" y1="5.99301251%" x2="50%" y2="100%" id="linearGradient-1">
-                            <stop stop-color="#FFFFCC" offset="0%"></stop>
-                            <stop stop-color="#A1DAB4" offset="20.0489363%"></stop>
-                            <stop stop-color="#41B6C4" offset="40.6465063%"></stop>
-                            <stop stop-color="#2C7FB8" offset="61.9622853%"></stop>
-                            <stop stop-color="#253494" offset="81.7046853%"></stop>
-                            <stop stop-color="#0F031C" offset="100%"></stop>
-                        </linearGradient>
-                    </defs>
-                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <g id="Desktop-HD" transform="translate(-83.000000, -254.000000)" fill="url(#linearGradient-1)">
-                            <rect id="Rectangle-Copy-4" transform="translate(199.625000, 274.000000) scale(-1, -1) rotate(90.000000) translate(-199.625000, -274.000000) " x="179.625" y="157.625" width="40" height="180.75"></rect>
+
+             <div id="legendContainer" style="float: left; width: 25%; padding-left: 30px">
+                <div style="padding-bottom: 30px;"id="legendText"></div>
+                <div>     
+                    <svg width="120px" height="120px" style="padding-top: 80px; position: relative; float: left; width: 90%" id="legend" viewBox="0 0 233 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <defs>
+                            <linearGradient x1="50%" y1="5.99301251%" x2="50%" y2="100%" id="linearGradient-1">
+                                <stop stop-color="#FFFFCC" offset="0%"></stop>
+                                <stop stop-color="#A1DAB4" offset="20.0489363%"></stop>
+                                <stop stop-color="#41B6C4" offset="40.6465063%"></stop>
+                                <stop stop-color="#2C7FB8" offset="61.9622853%"></stop>
+                                <stop stop-color="#253494" offset="81.7046853%"></stop>
+                                <stop stop-color="#0F031C" offset="100%"></stop>
+                            </linearGradient>
+                        </defs>
+                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Desktop-HD" transform="translate(-83.000000, -254.000000)" fill="url(#linearGradient-1)">
+                                <rect id="Rectangle-Copy-4" transform="translate(199.625000, 274.000000) scale(-1, -1) rotate(90.000000) translate(-199.625000, -274.000000) " x="179.625" y="157.625" width="40" height="180.75"></rect>
+                            </g>
                         </g>
-                    </g>
-                </svg>
+                    </svg>
                 </div>
-            </div> -->
+            </div>
+
 
             <svg id="map" height="500" width="960"></svg>
         </div>
@@ -195,7 +196,7 @@
                 .style("font-size", 14)
                 .style("font-weight", "bold")
                 .style("font-family", "Raleway")
-                .text("life expectancy");
+                .text("life expectancy (66-87)");
 
             var longest = d3.select("#longest")
                 .append("svg")
