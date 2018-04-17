@@ -63,12 +63,6 @@
             .bar:hover {
                 fill: #F56C4E;
             }
-            /* svg text.label {
-            fill:white;
-            font: 15px;  
-            font-weight: 400;
-            text-anchor: middle;
-            } */
             #chartID {
                 min-width: 400px;
             }
@@ -82,7 +76,7 @@
         <div>
             <div id="title"></div>
             <?xml version="1.0" encoding="UTF-8"?>
-            <svg style="padding-bottom: 20px;" width="780px" height="60px" viewBox="0 0 940 81" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <svg style="padding-bottom: 20px" width="780px" height="60px" viewBox="0 0 940 81" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
                 <title>affordability_pic</title>
                 <desc>Created with Sketch.</desc>
@@ -97,8 +91,10 @@
                     <text id="40%-of-income" font-family="Raleway-Medium, Raleway" font-size="40" font-weight="400" fill="#000000">
                         <tspan x="661" y="61">40% of income</tspan>
                     </text>
-                    <polyline id="Path-3" stroke="#000000" stroke-width="7.48" points="588 59 625 39.8450704 588 25"></polyline>
                     <path d="M588,69 L636.5,69" id="Path-4" stroke="#000000" stroke-width="7.48"></path>
+                    <path d="M588,69 L636.5,69" id="Path-4-Copy" stroke="#000000" stroke-width="7.48"></path>
+                    <path d="M590.5,41.5 L632.5,55.5" id="Path-4-Copy-2" stroke="#000000" stroke-width="7.48"></path>
+                    <path d="M593,41.5 L635.5,28.5" id="Path-4-Copy-3" stroke="#000000" stroke-width="7.48"></path>
                     <path d="M547,33.604048 L541.938364,33.604048 L530.933563,13 L484.064238,13 L473.060537,33.6051458 L468,33.6051458 L468,65.1616467 L475.901869,65.1616467 L475.901869,77 L486.431831,77 L486.431831,65.1605489 L528.568169,65.1605489 L528.568169,77 L539.094834,77 L539.094834,65.1605489 L546.998901,65.1605489 L546.998901,33.604048 L547,33.604048 Z M488.801622,20.8962607 L526.19508,20.8962607 L532.9824,33.604048 L482.015402,33.604048 L488.801622,20.8962607 Z M481.164652,55.9524528 C477.529726,55.9524528 474.586173,53.0148199 474.586173,49.3833962 C474.586173,45.7519726 477.530825,42.807753 481.164652,42.807753 C484.800676,42.807753 487.748626,45.7519726 487.748626,49.3833962 C487.748626,53.0148199 484.800676,55.9524528 481.164652,55.9524528 Z M533.83315,55.9524528 C530.193828,55.9524528 527.250275,53.0148199 527.250275,49.3833962 C527.250275,45.7519726 530.194927,42.807753 533.83315,42.807753 C537.468076,42.807753 540.414926,45.7519726 540.414926,49.3833962 C540.414926,53.0148199 537.468076,55.9524528 533.83315,55.9524528 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path>
                 </g>
             </svg>
@@ -108,9 +104,10 @@
             <div style="float: left; width: 10%; margin-left: 100px; font-family: Raleway;">Income: <span style="font-size: 30px" id="income" >…</span></div>
             <div style="float: left; width: 50%" id="slider2"></div>
             <!-- <div style="float: left; width: 5%" id="legend"></div> -->
-            <div style="float: left; width: 20%; padding-left: 40px">
-                <div style="padding-bottom: 40px;" id="legendText"></div>
-                <svg id="legend" width="100px" height="30px" viewBox="0 0 233 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <!-- <div style="float: left; width: 40%; padding-left: 40px">
+                <div style="padding-bottom: 75px;"id="legendText"></div>
+                <div>
+                <svg style="padding-top: 0px; float: left; width: 90%" id="legend" viewBox="0 0 233 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <defs>
                         <linearGradient x1="50%" y1="5.99301251%" x2="50%" y2="100%" id="linearGradient-1">
                             <stop stop-color="#FFFFCC" offset="0%"></stop>
@@ -123,17 +120,18 @@
                     </defs>
                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="Desktop-HD" transform="translate(-83.000000, -254.000000)" fill="url(#linearGradient-1)">
-                            <rect id="Rectangle-Copy-4" transform="translate(199.625000, 274.000000) scale(-1, -1) rotate(90.000000) translate(-199.625000, -274.000000) " x="179.625" y="157.625" width="40" height="232.75"></rect>
+                            <rect id="Rectangle-Copy-4" transform="translate(199.625000, 274.000000) scale(-1, -1) rotate(90.000000) translate(-199.625000, -274.000000) " x="179.625" y="157.625" width="40" height="180.75"></rect>
                         </g>
                     </g>
                 </svg>
-            </div>
+                </div>
+            </div> -->
 
             <svg id="map" height="500" width="960"></svg>
         </div>
 
         <div style="float: left; width: 40%" height="100%">
-            <p style="font-size: 20px; font-family: Raleway; font-weight: bolder;">affordable counties vs unaffordable counties as income increases</p>
+            <p style="font-size: 16px; font-family: Raleway; font-weight: bold;">affordable counties vs unaffordable counties as income increases</p>
             <svg id="piechart" height="330" width="600"></svg>
             <div width="200px" id="longest"></div>
         </div>
@@ -179,8 +177,8 @@
             var colorScale = d3.scaleLinear().domain([66,75.64,77.26,78.56,79.82,87]).range(colors);
             //extreme values
 
-            var county_longest;
-            var county_shortest;
+            var county_longest = "N/A"
+            var county_shortest = "N/A"
             var longest_life_expectancy;
             var shortest_life_expectancy;
             var affordableCount = 471;
@@ -189,15 +187,15 @@
 
             var color = d3.scaleOrdinal()
                 .domain(["affordable", "unaffordable"])
-                .range(["#98abc5", "#8a89a6"]);
+                .range(["#98abc5", "#d4d4d4"]);
 
             d3.select("#legendText")
                 .append("text")
-                .attr("transform", "translate(0,0)")
+                .attr("transform", "rotate(90)")
                 .style("font-size", 14)
                 .style("font-weight", "bold")
                 .style("font-family", "Raleway")
-                .text("life expectancy / year");
+                .text("life expectancy");
 
             var longest = d3.select("#longest")
                 .append("svg")
@@ -205,6 +203,7 @@
                 .attr("height", 100)
 
             //adding the counties with longest life expectancy
+
             longest.append("text")
                 .attr("id", "county1")
                 .attr("transform", "translate(10,40)")
@@ -212,13 +211,14 @@
                 .style("font-weight", "bold")
                 .style("font-family", "Raleway")
                 .text("County where you will live longest" + county_longest + ", " + longest_life_expectancy)
+       
             longest.append("text")
                .attr("id", "county2")
                .attr("transform", "translate(10,80)")
                .style("font-size", 20)
                 .style("font-weight", "bold")
                 .style("font-family", "Raleway")
-               .text("shortes " + county_shortest + ", " + shortest_life_expectancy + affordableCount)
+               .text("County where you will live shortest " + county_shortest + ", " + shortest_life_expectancy + affordableCount)
 
             //load data
             d3.queue()

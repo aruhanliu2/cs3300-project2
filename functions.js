@@ -9,8 +9,8 @@ function update(value, data) {
 
 //color fill
 function fillMap(selection, data) {
-    county_longest = "";
-    county_shortest = "";
+    county_longest = "N/A";
+    county_shortest = "N/A";
     longest_life_expectancy = 0;
     shortest_life_expectancy = 100;
     affordableCount = 0;
@@ -66,7 +66,7 @@ function fillMap(selection, data) {
     .text("County where you will live longest: " + county_longest + ", " + longest_life_expectancy)
     
     d3.select("#county2")
-    .text("County with shortest life expectancy: " + county_shortest + ", " + shortest_life_expectancy)
+    .text("County where you will live shortest: " + county_shortest + ", " + shortest_life_expectancy)
 }
 
 function countyMouseOver(currentState, d) {
