@@ -63,10 +63,10 @@ function fillMap(selection, data) {
     })
 
     d3.select("#county1")
-    .text("County where you will live longest: " + county_longest + ", " + longest_life_expectancy)
+    .text(county_longest + ", " + longest_life_expectancy)
     
     d3.select("#county2")
-    .text("County where you will live shortest: " + county_shortest + ", " + shortest_life_expectancy)
+    .text(county_shortest + ", " + shortest_life_expectancy)
 }
 
 function countyMouseOver(currentState, d) {

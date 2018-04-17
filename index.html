@@ -203,22 +203,37 @@
                 .attr("height", 100)
 
             //adding the counties with longest life expectancy
+            longest.append("text")
+                .attr("transform", "translate(0,40)")
+                .style("font-size", 16)
+                .style("font-weight", "bold")
+                .style("font-family", "Raleway")
+                .text("County where you will live longest: ")
 
             longest.append("text")
                 .attr("id", "county1")
-                .attr("transform", "translate(10,40)")
-                .style("font-size", 20)
+                .attr("transform", "translate(270,40)")
+                .style("font-size", 25)
+                .attr("fill", "#B82200")
                 .style("font-weight", "bold")
                 .style("font-family", "Raleway")
-                .text("County where you will live longest" + county_longest + ", " + longest_life_expectancy)
+                .text(county_longest + ", " + longest_life_expectancy)
        
             longest.append("text")
-               .attr("id", "county2")
-               .attr("transform", "translate(10,80)")
-               .style("font-size", 20)
+               .attr("transform", "translate(0,80)")
+               .style("font-size", 16)
                 .style("font-weight", "bold")
                 .style("font-family", "Raleway")
-               .text("County where you will live shortest " + county_shortest + ", " + shortest_life_expectancy + affordableCount)
+               .text("County where you will live shortest: ")
+
+               longest.append("text")
+               .attr("id", "county2")
+               .attr("fill", "#B82200")
+               .attr("transform", "translate(280,80)")
+               .style("font-size", 25)
+                .style("font-weight", "bold")
+                .style("font-family", "Raleway")
+               .text(county_shortest + ", " + shortest_life_expectancy)
 
             //load data
             d3.queue()
@@ -264,7 +279,6 @@
                 .width(400)
                 .default(65)
                 .on('onchange', val => {
-                    // d3.select("p#value2").text(val);
                     update(val * 1000, data);
                     // updateHistogram(preprocess(DATA));
                     change(randomData());
